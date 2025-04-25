@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Project Website</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      background: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      background: #111;
+      padding: 20px 20px 20px 60px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+      z-index: 10;
+    }
+    header img {
+      height: 50px;
+      margin-right: 20px;
+    }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: #111;
+      box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+    }
+    .tabs button {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      background: #111;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .tabs button:hover, .tabs button.active {
+      background: #333;
+      transform: scale(1.05);
+    }
+    .tab-content {
+      flex: 1;
+      padding: 30px;
+      position: relative;
+    }
+    .tab-section {
+      display: none;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.6s ease;
+    }
+    .tab-section.active {
+      display: block;
+      opacity: 1;
+      transform: translateX(0);
+      position: relative;
+    }
+    .video-container iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+    }
+    .stat {
+      background: #222;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
+    h1, h2 {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    p, ul {
+      line-height: 1.6;
+    }
+    .paw {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      pointer-events: none;
+      animation: fadeOut 2s forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Paw-print.svg/768px-Paw-print.svg.png" alt="Strays to Stars Logo">
+    <h1>Strays to Stars</h1>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-button active" onclick="showTab('home', event)">Home</button>
+    <button class="tab-button" onclick="showTab('about', event)">About</button>
+    <button class="tab-button" onclick="showTab('certification', event)">Certification</button>
+    <button class="tab-button" onclick="showTab('videos', event)">Videos</button>
+    <button class="tab-button" onclick="showTab('impact', event)">Impact</button>
+    <button class="tab-button" onclick="showTab('statistics', event)">Statistics</button>
+  </div>
+
+  <div class="tab-content">
+    <div id="home" class="tab-section active">
+      <h2>Home</h2>
+      <p>We are Strays to Stars, dedicated to ensuring that every dog in our locality can live a life where they are safe from abuse and free from disease</p>
+    </div>
+
+    <div id="about" class="tab-section">
+      <h2>About</h2>
+      <p>This project is based on [insert topic here]. It covers detailed research, analysis, and impact of the subject in various contexts.</p>
+    </div>
+
+    <div id="certification" class="tab-section">
+      <h2>Certification</h2>
+      <p>Here's a list of certifications or achievements related to this project:</p>
+      <ul>
+        <li>Certificate 1 - [details]</li>
+        <li>Certificate 2 - [details]</li>
+      </ul>
+    </div>
+
+    <div id="videos" class="tab-section">
+      <h2>Videos</h2>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/9ECNxZl8dWU" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div id="impact" class="tab-section">
+      <h2>Impact</h2>
+      <p>This project aims to raise awareness and contribute to positive change in the field of [topic].</p>
+    </div>
+
+    <div id="statistics" class="tab-section">
+      <h2>Statistics</h2>
+      <div class="stats">
+        <div class="stat">
+          <h3>50+</h3>
+          <p>Surveys Taken</p>
+        </div>
+        <div class="stat">
+          <h3>80%</h3>
+          <p>Positive Feedback</p>
+        </div>
+        <div class="stat">
+          <h3>10</h3>
+          <p>Case Studies</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(id, event) {
+      const current = document.querySelector('.tab-section.active');
+      const next = document.getElementById(id);
+
+      if (current && current !== next) {
+        current.classList.remove('active');
+        setTimeout(() => {
+          next.classList.add('active');
+        }, 100);
+      }
+
+      document.querySelectorAll('.tab-button').forEach(button => {
+        button.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+
+    document.body.addEventListener('click', function (e) {
+      const paw = document.createElement('img');
+      paw.src = 'https://i.imgur.com/hVCFu6p.png'; // Direct link to pawprint image
+      paw.className = 'paw';
+      paw.style.left = `${e.pageX - 25}px`;
+      paw.style.top = `${e.pageY - 25}px`;
+      document.body.appendChild(paw);
+      setTimeout(() => {
+        paw.remove();
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
