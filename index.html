@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>School Project Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Strays to Stars</title>
   <style>
     * {
       margin: 0;
@@ -15,18 +14,19 @@
     body {
       background: #000;
       color: #fff;
-      display: flex;
-      flex-direction: column;
       min-height: 100vh;
       overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
     }
     header {
       background: #111;
       padding: 20px 20px 20px 60px;
       display: flex;
       align-items: center;
-      box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+      position: relative;
       z-index: 10;
+      box-shadow: 0 2px 5px rgba(255,255,255,0.1);
     }
     header img {
       height: 50px;
@@ -37,6 +37,8 @@
       justify-content: center;
       flex-wrap: wrap;
       background: #111;
+      position: relative;
+      z-index: 10;
       box-shadow: 0 2px 5px rgba(255,255,255,0.1);
     }
     .tabs button {
@@ -56,6 +58,7 @@
       flex: 1;
       padding: 30px;
       position: relative;
+      z-index: 10;
     }
     .tab-section {
       display: none;
@@ -97,24 +100,21 @@
     p, ul {
       line-height: 1.6;
     }
-    .paw {
+
+    .dog {
       position: absolute;
-      width: 50px;
-      height: 50px;
       pointer-events: none;
-      animation: fadeOut 2s forwards;
-      z-index: 999;
-    }
-    @keyframes fadeOut {
-      0% { opacity: 1; }
-      100% { opacity: 0; }
+      z-index: 1;
+      transition: transform 0.1s linear;
+      will-change: transform;
     }
   </style>
 </head>
+
 <body>
+
   <header>
     <img src="sts.jpg" alt="Strays to Stars Logo">
-    
     <h1>Strays to Stars</h1>
   </header>
 
@@ -130,7 +130,7 @@
   <div class="tab-content">
     <div id="home" class="tab-section active">
       <h2>Home</h2>
-      <p>We are Strays to Stars, dedicated to ensuring that every dog in our locality can live a life where they are safe from abuse and free from disease</p>
+      <p>We are Strays to Stars, dedicated to ensuring that every dog in our locality can live a life where they are safe from abuse and free from disease.</p>
     </div>
 
     <div id="about" class="tab-section">
@@ -178,35 +178,73 @@
     </div>
   </div>
 
-  <script>
-    function showTab(id, event) {
-      const current = document.querySelector('.tab-section.active');
-      const next = document.getElementById(id);
+<script>
+  function showTab(id, event) {
+    const current = document.querySelector('.tab-section.active');
+    const next = document.getElementById(id);
 
-      if (current && current !== next) {
-        current.classList.remove('active');
-        setTimeout(() => {
-          next.classList.add('active');
-        }, 100);
-      }
-
-      document.querySelectorAll('.tab-button').forEach(button => {
-        button.classList.remove('active');
-      });
-      event.target.classList.add('active');
+    if (current && current !== next) {
+      current.classList.remove('active');
+      setTimeout(() => {
+        next.classList.add('active');
+      }, 100);
     }
 
-    document.body.addEventListener('click', function (e) {
-      const paw = document.createElement('img');
-      paw.src = 'pawprint.png'; // make sure it's in the same directory
-      paw.className = 'paw';
-      paw.style.left = `${e.pageX - 25}px`;
-      paw.style.top = `${e.pageY - 25}px`;
-      document.body.appendChild(paw);
-      setTimeout(() => {
-        paw.remove();
-      }, 2000);
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.classList.remove('active');
     });
-  </script>
+    event.target.classList.add('active');
+  }
+
+  const dogImages = [
+    'dog1.png', 'dog2.jpg', 'dog3.png',
+    'dog4.png', 'dog5.png', 'dog6.png',
+    'dog7.png', 'dog8.png', 'dog9.png'
+  ];
+
+  function spawnDog() {
+    const img = document.createElement('img');
+    img.src = dogImages[Math.floor(Math.random() * dogImages.length)];
+    img.className = 'dog';
+
+    const edge = Math.floor(Math.random() * 4);
+    let x, y;
+    if (edge === 0) { x = 0; y = Math.random() * window.innerHeight; } // left
+    else if (edge === 1) { x = window.innerWidth; y = Math.random() * window.innerHeight; } // right
+    else if (edge === 2) { x = Math.random() * window.innerWidth; y = 0; } // top
+    else { x = Math.random() * window.innerWidth; y = window.innerHeight; } // bottom
+
+    img.style.left = x + 'px';
+    img.style.top = y + 'px';
+
+    const size = Math.floor(Math.random() * 250) + 250; // 250 to 500px
+    img.style.width = size + 'px';
+
+    document.body.appendChild(img);
+
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    let interval = setInterval(() => {
+      const dx = centerX - x + (Math.random() - 0.5) * 20;
+      const dy = centerY - y + (Math.random() - 0.5) * 20;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 50) {
+        img.remove();
+        clearInterval(interval);
+        return;
+      }
+      x += dx / dist * 2;
+      y += dy / dist * 2;
+      img.style.left = x + 'px';
+      img.style.top = y + 'px';
+      img.style.transform = `translate(-50%, -50%) scale(${Math.max(0.2, dist / 1000)})`;
+    }, 30);
+  }
+
+  setInterval(spawnDog, 300);
+  window.onload = () => { for (let i = 0; i < 20; i++) spawnDog(); };
+</script>
+
 </body>
 </html>
