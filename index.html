@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Strays to Stars</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -12,239 +13,171 @@
       font-family: 'Segoe UI', sans-serif;
     }
     body {
-      background: #000;
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
-      overflow-y: auto;
-      position: relative;
+      background: #fdf6f0;
+      color: #333;
+      padding-bottom: 80px; /* space for fixed footer */
     }
-    header {
-      background: #111;
-      padding: 20px 20px 20px 60px;
+    .header-container {
+      position: relative;
+      background: white;
+      height: 200px;
       display: flex;
       align-items: center;
-      position: relative;
-      z-index: 10;
-      box-shadow: 0 2px 5px rgba(255,255,255,0.1);
-    }
-    header img {
-      height: 50px;
-      margin-right: 20px;
-    }
-    .tabs {
-      display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      background: #111;
-      position: relative;
-      z-index: 10;
-      box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+      z-index: 1000;
     }
-    .tabs button {
-      flex: 1;
-      padding: 15px;
-      border: none;
-      background: #111;
-      color: #fff;
+    .header-container img {
+      max-height: 180px;
+      object-fit: contain;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+    nav {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      height: 100px;
+      display: flex;
+      align-items: center;
+      padding-right: 40px;
+      z-index: 2;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 10px 20px;
+      border-radius: 20px;
+    }
+    nav ul li a {
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
     }
-    .tabs button:hover, .tabs button.active {
-      background: #333;
-      transform: scale(1.05);
+    header {
+      background: #f9d7b0;
+      color: #333;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 3rem;
+    }
+    header p {
+      font-size: 1.2rem;
+      margin-top: 10px;
     }
     .tab-content {
-      flex: 1;
-      padding: 30px;
-      position: relative;
-      z-index: 10;
-    }
-    .tab-section {
       display: none;
-      position: absolute;
-      width: 100%;
-      left: 0;
-      top: 0;
-      opacity: 0;
-      transform: translateX(100%);
-      transition: all 0.6s ease;
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: auto;
     }
-    .tab-section.active {
+    .active-tab {
       display: block;
-      opacity: 1;
-      transform: translateX(0);
-      position: relative;
     }
-    .video-container iframe {
-      width: 100%;
-      height: 300px;
-      border: none;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-    }
-    .stat {
+    footer {
       background: #222;
-      padding: 20px;
+      color: #ccc;
       text-align: center;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
-    }
-    h1, h2 {
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    p, ul {
-      line-height: 1.6;
-    }
-
-    .dog {
-      position: absolute;
-      pointer-events: none;
-      z-index: 1;
-      transition: transform 0.1s linear;
-      will-change: transform;
+      padding: 20px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
     }
   </style>
 </head>
-
 <body>
 
-  <header>
-    <img src="sts.jpg" alt="Strays to Stars Logo">
-    <h1>Strays to Stars</h1>
-  </header>
-
-  <div class="tabs">
-    <button class="tab-button active" onclick="showTab('home', event)">Home</button>
-    <button class="tab-button" onclick="showTab('about', event)">About</button>
-    <button class="tab-button" onclick="showTab('certification', event)">Certification</button>
-    <button class="tab-button" onclick="showTab('videos', event)">Videos</button>
-    <button class="tab-button" onclick="showTab('impact', event)">Impact</button>
-    <button class="tab-button" onclick="showTab('statistics', event)">Statistics</button>
-  </div>
-
-  <div class="tab-content">
-    <div id="home" class="tab-section active">
-      <h2>Home</h2>
-      <p>We are Strays to Stars, dedicated to ensuring that every dog in our locality can live a life where they are safe from abuse and free from disease.</p>
-    </div>
-
-    <div id="about" class="tab-section">
-      <h2>About</h2>
-      <p>This project is based on [insert topic here]. It covers detailed research, analysis, and impact of the subject in various contexts.</p>
-    </div>
-
-    <div id="certification" class="tab-section">
-      <h2>Certification</h2>
-      <p>Here's a list of certifications or achievements related to this project:</p>
+  <div class="header-container">
+    <img src="sts-logo.jpg" alt="Strays to Stars Logo">
+    <nav>
       <ul>
-        <li>Certificate 1 - [details]</li>
-        <li>Certificate 2 - [details]</li>
+        <li><a onclick="showTab('home')">Home</a></li>
+        <li><a onclick="showTab('about')">About</a></li>
+        <li><a onclick="showTab('features')">What We Do</a></li>
+        <li><a onclick="showTab('video')">Video</a></li>
+        <li><a onclick="showTab('team')">Team</a></li>
+        <li><a onclick="showTab('contact')">Contact</a></li>
       </ul>
-    </div>
+    </nav>
+  </div>
 
-    <div id="videos" class="tab-section">
-      <h2>Videos</h2>
-      <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-      </div>
-    </div>
-
-    <div id="impact" class="tab-section">
-      <h2>Impact</h2>
-      <p>This project aims to raise awareness and contribute to positive change in the field of [topic].</p>
-    </div>
-
-    <div id="statistics" class="tab-section">
-      <h2>Statistics</h2>
-      <div class="stats">
-        <div class="stat">
-          <h3>50+</h3>
-          <p>Surveys Taken</p>
-        </div>
-        <div class="stat">
-          <h3>80%</h3>
-          <p>Positive Feedback</p>
-        </div>
-        <div class="stat">
-          <h3>10</h3>
-          <p>Case Studies</p>
-        </div>
-      </div>
+  <div id="home" class="tab-content active-tab">
+    <header>
+      <h1>From Strays to Stars</h1>
+      <p style="margin-top: 20px; font-size: 1.1rem; line-height: 1.6;">Raising awareness about adopting stray dogs, promoting Indian breeds, and encouraging vaccinations.<br>Let's turn strays into stars 🌟</p>
+    <div style="text-align: center; margin-top: 20px;">
+      <img src="dog_outline-removebg-preview.png" alt="Dog Illustration" style="max-width: 100%; height: auto;">
     </div>
   </div>
 
-<script>
-  function showTab(id, event) {
-    const current = document.querySelector('.tab-section.active');
-    const next = document.getElementById(id);
+  <div id="about" class="tab-content">
+    <h2>About</h2>
+    <p>Strays to Stars is a student-led project focused on raising awareness about the lives of stray dogs, their struggles, and how society can help.</p>
+  </div>
 
-    if (current && current !== next) {
-      current.classList.remove('active');
-      setTimeout(() => {
-        next.classList.add('active');
-      }, 100);
+  <div id="features" class="tab-content">
+    <h2>What We Do</h2>
+    <ul>
+      <li>Run awareness campaigns</li>
+      <li>Create educational content</li>
+      <li>Support adoption and rescue initiatives</li>
+    </ul>
+  </div>
+
+  <div id="video" class="tab-content">
+  <h2>Project Video</h2>
+  <iframe width="100%" height="400" src="https://www.youtube.com/embed/iz_pmQ-L8FQ" frameborder="0" allowfullscreen></iframe>
+</div>
+
+  <div id="team" class="tab-content">
+    <h2>Team</h2>
+    <ul>
+      <li>Chaaruhaas</li>
+      <li>Ruchira</li>
+      <li>Anushka</li>
+      <li>Namish</li>
+      <li>Pranav</li>
+    </ul>
+  </div>
+
+  <div id="contact" class="tab-content">
+    <h2>Contact Us</h2>
+    <form action="https://formspree.io/f/xgvzwpod" method="POST" style="background: #fff3e6; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 500px; margin: 0 auto;">
+      <div style="margin-bottom: 15px;">
+        <input type="text" name="name" placeholder="Your Name" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px;">
+      </div>
+      <div style="margin-bottom: 15px;">
+        <input type="email" name="email" placeholder="Your Email" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px;">
+      </div>
+      <div style="margin-bottom: 15px;">
+        <textarea name="message" placeholder="Your Message" rows="5" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+      </div>
+      <div style="text-align: center;">
+        <button type="submit" style="background-color: #ff914d; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Send Message</button>
+      </div>
+    </form>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Strays to Stars. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.classList.remove('active-tab'));
+      document.getElementById(tabId).classList.add('active-tab');
     }
-
-    document.querySelectorAll('.tab-button').forEach(button => {
-      button.classList.remove('active');
-    });
-    event.target.classList.add('active');
-  }
-
-  const dogImages = [
-    'dog1.png', 'dog2.jpg', 'dog3.png',
-    'dog4.png', 'dog5.png', 'dog6.png',
-    'dog7.png', 'dog8.png', 'dog9.png'
-  ];
-
-  function spawnDog() {
-    const img = document.createElement('img');
-    img.src = dogImages[Math.floor(Math.random() * dogImages.length)];
-    img.className = 'dog';
-
-    const edge = Math.floor(Math.random() * 4);
-    let x, y;
-    if (edge === 0) { x = 0; y = Math.random() * window.innerHeight; } // left
-    else if (edge === 1) { x = window.innerWidth; y = Math.random() * window.innerHeight; } // right
-    else if (edge === 2) { x = Math.random() * window.innerWidth; y = 0; } // top
-    else { x = Math.random() * window.innerWidth; y = window.innerHeight; } // bottom
-
-    img.style.left = x + 'px';
-    img.style.top = y + 'px';
-
-    const size = Math.floor(Math.random() * 250) + 250; // 250 to 500px
-    img.style.width = size + 'px';
-
-    document.body.appendChild(img);
-
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-
-    let interval = setInterval(() => {
-      const dx = centerX - x + (Math.random() - 0.5) * 20;
-      const dy = centerY - y + (Math.random() - 0.5) * 20;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 50) {
-        img.remove();
-        clearInterval(interval);
-        return;
-      }
-      x += dx / dist * 2;
-      y += dy / dist * 2;
-      img.style.left = x + 'px';
-      img.style.top = y + 'px';
-      img.style.transform = `translate(-50%, -50%) scale(${Math.max(0.2, dist / 1000)})`;
-    }, 30);
-  }
-
-  setInterval(spawnDog, 300);
-  window.onload = () => { for (let i = 0; i < 20; i++) spawnDog(); };
-</script>
+  </script>
 
 </body>
 </html>
